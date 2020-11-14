@@ -5,9 +5,10 @@ from django.utils import timezone
 
 class Donor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    #este comentario es para saber los cambios de la nueva rama 
     documentType = models.TextField(null=True,blank=True)
     legalNature = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True )
-    birthday = models.DateField(null=True,blank=True)
+    #birthday = models.DateField(null=True,blank=True)
     mobile = models.CharField(max_length=64, null=True,blank=True)
     #image = models.ImageField(upload_to='profile_pics/',null=True,blank=True, default='profile_pics/no_img.png')
    
