@@ -18,6 +18,7 @@ def index(request):
  
 class DonorView(View):
    def get(self, request, *args, **kwargs):
+      
       return HttpResponse('Esto es un get correcto!')
 
    #@csrf_exempt
@@ -26,7 +27,8 @@ class DonorView(View):
       email = request.POST["email"]
       password = request.POST["password"]
       user = User.objects.create_user(userName, email, password)
-      Donor.objects.create(user=user,documentType="Cedula", documentId="123456")
+      Donor.objects.create(user=user,documentType=request.POST["documentType"], documentId=request.POST["documentId"])
+      
       
 
       return HttpResponse(user)
