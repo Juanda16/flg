@@ -18,7 +18,7 @@ def index(request):
  
 class DonorView(View):
    def get(self, request, *args, **kwargs):
-      return HttpResponse('Hello, World!')
+      return HttpResponse('Esto es un get correcto!')
 
    #@csrf_exempt
    def post(self, request, *args, **kwargs):
