@@ -6,6 +6,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User
 from datetime import date
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -13,20 +15,37 @@ from datetime import date
 def index(request):
    return render(request, 'app/index.html', {})
 
-def donor(request):
+ 
+class DonorView(View):
+   def get(self, request, *args, **kwargs):
+      return HttpResponse('Hello, World!')
+
+   #@csrf_exempt
+   def post(self, request, *args, **kwargs):
+      userName= request.POST["userName"]
+      email = request.POST["email"]
+      password = request.POST["password"]
+      user = User.objects.create_user(userName, email, password)
+      Donor.objects.create(user=user,documentType="Cedula", documentId="123456")
+      
+
+      return HttpResponse(user)
+
+
+# def donor(request):
     
-   # if request.method == 'GET':
+#    # if request.method == 'GET':
        
 
-    if request.method == 'POST':
-        firstname = request.POST["first_name"]
-        lastname = request.POST["last_name"]
-        email = request.POST["email"]
-        password = request.POST["password"]
-        username = firstname+lastname
-        user = User.objects.create_user(username, email, password)
-        Donor.objects.create(user=user, documentType="cuentanos de tí",documentId="" , legalNature="")
+#     if request.method == 'POST':
+#         #firstname = request.POST["first_name"]
+#         #lastname = request.POST["last_name"]
+#         email = request.POST["email"]
+#         password = request.POST["password"]
+#         username = email
+#         user = User.objects.create_user(username, email, password)
+#         Donor.objects.create(user=user, documentType="cuentanos de tí",documentId="" , legalNature="")
         
     
-        return ()
+#         return HttpResponse('Hello, World!')
         
