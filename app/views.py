@@ -8,7 +8,10 @@ from django.contrib.auth.models import User
 from datetime import date
 from django.views import View
 from django.http import QueryDict
-#from django.views.decorators.csrf import csrf_exempt
+from app.service import *
+import json
+from django.http import JsonResponse
+
 
 
 # Views here.
@@ -19,8 +22,9 @@ def index(request):
  
 class DonorView(View):
    def get(self, request, *args, **kwargs):
+      donor = gettingUser (id = kwargs['pk'])
+      return HttpResponse(donor)
       
-      return HttpResponse('Esto es un get correcto!')
 
    
    def post(self, request, *args, **kwargs):
@@ -40,7 +44,9 @@ class DonorView(View):
       try:
          _userid = kwargs['pk']
          user = User.objects.get(id=_userid)
-         user.userName = put.get('userName')
+         user.username = put.get('username')
+         user.first_name = put.get('first_name')
+         user.last_name = put.get('last_name')
          user.email = put.get('email')
          user.password = put.get('password')
          user.save()
