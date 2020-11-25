@@ -1,21 +1,32 @@
 from django.shortcuts import render
-
-# Create your views here.
-
-from django.views.generic import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import (CreateView, UpdateView, DeleteView)
-from django.core.urlresolvers import reverse_lazy
-from models import Donor
-from models import DonorView
-from models import * 
+from app.models import Donor
+from django.utils import timezone
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
+from django.contrib.auth.models import User
+from datetime import date
+from django.views import View
+from django.http import QueryDict
+from app.service import gettingUser,postingUser,puttingUser,deletingUser
+#import json
 
 class DonorView(View):
         def get(self, request,*args,**kwargs):
-                _userid=kwargs['pk']
-                user = User.objects.get(id=_userid)
-                Donor.objects.get(user_id=user.id)
-                return HttpResponse("Diana, esta bien")
+                donor = gettingUser(id=kwargs['pk'])
+                return HttpResponse(donor)
     
 
-    
+        def post(self, request, *args, **kwargs):
+                donor = postingUser(request)
+                return HttpResponse(donor)
+                #return HttpResponsedonor)
+
+        def put(self,request,*args,**kwargs):
+                id=kwargs['pk']
+                donor=puttingUser(request,id)
+                return HttpResponse(donor)
+
+        def delete(self,request,**kwargs):
+               id=kwargs['pk']
+               deletingUser(request,id)
+               return HttpResponse("El usuario ha sido eliminado") 

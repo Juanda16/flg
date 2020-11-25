@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-<<<<<<< HEAD
 from django.contrib.auth.models import User, Group
 from django.urls import reverse #Used to generate URLs by reversing the URL patterns
 
@@ -18,12 +17,9 @@ class Donor(models.Model):
         """
         String para representar el Objeto Modelo
         """
-        return 'Nombre:%s Apellido:%s Username:%s Documento:%s' % (self.user.first_name, self.user.last_name, self.user.username, self.donor.documentId)
+        return 'Nombre:%s Apellido:%s Username:%s Documento:%s' % (self.user.first_name, self.user.last_name, self.user.username, self.documentId)
 
 
-    
-=======
 
->>>>>>> 353016cdfbda858a1904aa24c1464c26b6248c28
     
 
