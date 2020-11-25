@@ -14,11 +14,11 @@ class Donor(models.Model):
     legalNature = models.CharField(max_length=64, null=True,blank=True)
     mobile = models.CharField(max_length=64, null=True,blank=True)
        
-    # def __str__(self):
-    #     """
-    #     String para representar el Objeto Modelo
-    #     """
-    #     return '%s %s (%s)' % (self.user.first_name, self.user.last_name, self.user.username)
+    def __str__(self):
+        """
+        String para representar el Objeto Modelo
+        """
+        return 'Nombre:%s Apellido:%s Username:%s Documento:%s' % (self.user.first_name, self.user.last_name, self.user.username, self.donor.documentId)
 
 
     

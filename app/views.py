@@ -7,13 +7,15 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import (CreateView, UpdateView, DeleteView)
 from django.core.urlresolvers import reverse_lazy
 from models import Donor
-#from models import * 
+from models import DonorView
+from models import * 
 
-#if request.method == 'GET':
-        user = User.objects.GET(id)
-        Donor.objects.GET(user)
-        return HttpResponse("variables")
+class DonorView(View):
+        def get(self, request,*args,**kwargs):
+                _userid=kwargs['pk']
+                user = User.objects.get(id=_userid)
+                Donor.objects.get(user_id=user.id)
+                return HttpResponse("Diana, esta bien")
     
-
 
     
