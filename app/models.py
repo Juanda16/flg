@@ -17,8 +17,12 @@ class Donor(models.Model):
         """
         String para representar el Objeto Modelo
         """
+<<<<<<< HEAD
         return 'Nombre:%s Apellido:%s Username:%s Documento:%s' % (self.user.first_name, self.user.last_name, self.user.username, self.documentId)
 
+=======
+        return 'nombre: %s apellido: %s username:%s #docuemento: %s' % (self.user.first_name, self.user.last_name, self.user.username, self.documentId)
+>>>>>>> db0b87fec8308048d0247d3eedb31541a1628ca7
 
 
     

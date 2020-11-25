@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #from django.views.generic import ListView
 #from django.views.generic.detail import DetailView
 #from django.views.generic.edit import (CreateView, UpdateView, DeleteView)
@@ -49,4 +50,15 @@ def deletingUser(request,Id):
     user.delete()    
     return ()
 
+=======
+
+from app.models import Donor
+from django.contrib.auth.models import User
+
+def gettingUser (id):
+
+      user = User.objects.get(id=id)
+      donor=Donor.objects.get(user_id=user.id)
+      return donor
+>>>>>>> db0b87fec8308048d0247d3eedb31541a1628ca7
     
