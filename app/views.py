@@ -7,6 +7,10 @@ from django.contrib.auth.models import User
 from datetime import date
 from django.views import View
 from django.http import QueryDict
+<<<<<<< HEAD
+from app.service import gettingUser,postingUser,puttingUser,deletingUser
+#import json
+=======
 from app.service import *
 import json
 from django.http import JsonResponse
@@ -14,12 +18,20 @@ from django.http import JsonResponse
 
 
 # Views here.
+>>>>>>> db0b87fec8308048d0247d3eedb31541a1628ca7
 
-def index(request):
-   return render(request, 'app/index.html', {})
-
- 
 class DonorView(View):
+<<<<<<< HEAD
+        def get(self, request,*args,**kwargs):
+                donor = gettingUser(id=kwargs['pk'])
+                return HttpResponse(donor)
+    
+
+        def post(self, request, *args, **kwargs):
+                donor = postingUser(request)
+                return HttpResponse(donor)
+                #return HttpResponsedonor)
+=======
    def get(self, request, *args, **kwargs):
       donor = gettingUser (id = kwargs['pk'])
       return HttpResponse(donor)
@@ -66,21 +78,14 @@ class DonorView(View):
     
     
 
+>>>>>>> db0b87fec8308048d0247d3eedb31541a1628ca7
 
-# def donor(request):
-    
-#    # if request.method == 'GET':
-       
+        def put(self,request,*args,**kwargs):
+                id=kwargs['pk']
+                donor=puttingUser(request,id)
+                return HttpResponse(donor)
 
-#     if request.method == 'POST':
-#         #firstname = request.POST["first_name"]
-#         #lastname = request.POST["last_name"]
-#         email = request.POST["email"]
-#         password = request.POST["password"]
-#         username = email
-#         user = User.objects.create_user(username, email, password)
-#         Donor.objects.create(user=user, documentType="cuentanos de tí",documentId="" , legalNature="")
-        
-    
-#         return HttpResponse('Hello, World!')
-        
+        def delete(self,request,**kwargs):
+               id=kwargs['pk']
+               deletingUser(request,id)
+               return HttpResponse("El usuario ha sido eliminado") 
