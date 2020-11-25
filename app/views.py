@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from app.models import Donor
 from django.utils import timezone
-from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User
