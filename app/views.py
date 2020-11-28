@@ -7,10 +7,6 @@ from django.contrib.auth.models import User
 from datetime import date
 from django.views import View
 from django.http import QueryDict
-<<<<<<< HEAD
-from app.service import gettingUser,postingUser,puttingUser,deletingUser
-#import json
-=======
 from app.service import *
 import json
 from django.http import JsonResponse
@@ -18,23 +14,14 @@ from django.http import JsonResponse
 
 
 # Views here.
->>>>>>> db0b87fec8308048d0247d3eedb31541a1628ca7
 
 class DonorView(View):
-<<<<<<< HEAD
-        def get(self, request,*args,**kwargs):
-                donor = gettingUser(id=kwargs['pk'])
-                return HttpResponse(donor)
-    
-
-        def post(self, request, *args, **kwargs):
-                donor = postingUser(request)
-                return HttpResponse(donor)
-                #return HttpResponsedonor)
-=======
    def get(self, request, *args, **kwargs):
       donor = gettingUser (id = kwargs['pk'])
-      return HttpResponse(donor)
+
+      lista=[{username.user, first_name.user, last_name.user, email.user, documentType.donor, documentId.donor}]
+      return JResponse (lista)
+      #return HttpResponse(donor)
       
 
    
@@ -71,14 +58,7 @@ class DonorView(View):
       except User.DoesNotExist:
 
          return HttpResponse("user doesn´t exist")
-      
-      
-
-      
-    
-    
-
->>>>>>> db0b87fec8308048d0247d3eedb31541a1628ca7
+        
 
         def put(self,request,*args,**kwargs):
                 id=kwargs['pk']
