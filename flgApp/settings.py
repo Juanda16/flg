@@ -73,7 +73,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'flgApp.wsgi.application'
 
 
-# Database
+# SQL Database 
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {

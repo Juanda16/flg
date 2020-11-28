@@ -15,61 +15,36 @@ from .serializers import DonorSerializer
 
 # Views here.
 
-class DonorView(View):
-    def get(self, request, *args, **kwargs):
+class DonorView(View): # define an especfic Donor CRUD
+    def get(self, request, *args, **kwargs): #get
         donor = gettingUser(id=kwargs['pk'])
-        serializer = DonorSerializer(donor)
-        # return JSONResponse(serializer.data)
         return HttpResponse(donor)
 
-        # return HttpResponse(json.dumps(donor), content_type="application/json")
-
-    def post(self, request, *args, **kwargs):
+        
+    def post(self, request, *args, **kwargs): # A especific Donor cant be posted
 
         return HttpResponse("Method not implemented ")
 
-    def put(self, request, *args, **kwargs):
-        put = QueryDict(request.body)
-
-        try:
-            _userid = kwargs['pk']
-            user = User.objects.get(id=_userid)
-            user.username = put.get('username')
-            user.first_name = put.get('first_name')
-            user.last_name = put.get('last_name')
-            user.email = put.get('email')
-            user.password = put.get('password')
-            user.save()
-            donor = Donor.objects.get(user_id=_userid)
-            donor.documentType = put.get('documentType')
-            donor.documentId = put.get('documentId')
-            donor.save()
-
-            return HttpResponse(user)
-
-        except User.DoesNotExist:
-
-            return HttpResponse("user doesn´t exist")
-
-    def put(self, request, *args, **kwargs):
+   
+    def put(self, request, *args, **kwargs): #put
         id = kwargs['pk']
         donor = puttingUser(request, id)
         return HttpResponse(donor)
 
-    def delete(self, request, **kwargs):
+    def delete(self, request, **kwargs): #delete
         id = kwargs['pk']
         deletingUser(request, id)
         return HttpResponse("El usuario ha sido eliminado")
 
 
-class DonorsView(View):
-   def get(self, request, *args, **kwargs):
+class DonorsView(View): # define Donors CRUD
+
+   def get(self, request, *args, **kwargs): #get
     
     return HttpResponse(Donor.objects.all())
 
-    # return HttpResponse(json.dumps(donor), content_type="application/json")
-
-   def post(self, request, *args, **kwargs):
+   
+   def post(self, request, *args, **kwargs):#post
       userName = request.POST["userName"]
       email = request.POST["email"]
       password = request.POST["password"]
@@ -77,10 +52,10 @@ class DonorsView(View):
       Donor.objects.create(user=user, documentType=request.POST["documentType"], documentId=request.POST["documentId"])
       return HttpResponse(user)
 
-   def put(self, request, *args, **kwargs):
+   def put(self, request, *args, **kwargs): ## A generic Donor cant be puted
 
         return HttpResponse("Method not implemented ")
 
-   def delete(self, request, *args, **kwargs):
+   def delete(self, request, *args, **kwargs): # A generic Donor cant be delete
 
         return HttpResponse("Method not implemented")
