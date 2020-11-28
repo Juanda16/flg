@@ -48,5 +48,3 @@ def deletingUser(request,Id):
     user = User.objects.get(id=Id)
     user.delete()    
     return ()
-
-    
