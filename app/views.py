@@ -45,12 +45,8 @@ class DonorsView(View): # define Donors CRUD
 
    
    def post(self, request, *args, **kwargs):#post
-      userName = request.POST["userName"]
-      email = request.POST["email"]
-      password = request.POST["password"]
-      user = User.objects.create_user(userName, email, password)
-      Donor.objects.create(user=user, documentType=request.POST["documentType"], documentId=request.POST["documentId"])
-      return HttpResponse(user)
+      donor=postingUser(request)
+      return HttpResponse(donor)
 
    def put(self, request, *args, **kwargs): ## A generic Donor cant be puted
 
