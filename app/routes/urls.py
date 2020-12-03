@@ -6,8 +6,8 @@ urlpatterns = [
     path("", userView.index, name="index"),
     path('index', userView.index, name='index_view'),
     path('api/v1/donor', userView.DonorsView.as_view(), name='donor_view'),# general donor - POST, GET methods implemented
-    path('api/v1/donation', userView.DonorsView.as_view(), name='donor_view'),
-    path('api/v1/certificate', userView.DonorsView.as_view(), name='donor_view'),
+    path('api/v1/donation', userView.DonationView.as_view(), name='donor_view'),
+    #path('api/v1/certificate', userView.DonorsView.as_view(), name='donor_view'),
 
     path()
     """ path('api/v1/donor/<int:pk>', userView.DonorView.as_view(), name='donor_view_detail'), 
