@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from app.models import Donor
+from app.models.donor import Donor
 from django.utils import timezone
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
@@ -10,10 +10,18 @@ from django.http import QueryDict
 from app.service import gettingUser, postingUser, puttingUser, deletingUser
 import json
 from rest_framework import routers, serializers, viewsets
-from .serializers import DonorSerializer
+#from .serializers import DonorSerializer
 
 
 # Views here.
+def index(request):
+    if not request.user.is_authenticated:
+        return render(request, "index.html", {"message": None})
+    context = {
+        "user": request.user
+    }
+    return render(request, "user/index.html", context)
+
 
 class DonorView(View): # define an especfic Donor CRUD
     def get(self, request, *args, **kwargs): #get

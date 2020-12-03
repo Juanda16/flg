@@ -1,4 +1,4 @@
-from app.models import Donor
+from app.models.donor import Donor
 from django.contrib.auth.models import User
 from django.http import QueryDict
 
