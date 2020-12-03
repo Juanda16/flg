@@ -6,8 +6,8 @@ from django.urls import reverse #Used to generate URLs by reversing the URL patt
 # Entity.
 
 
-class Donor(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Donor(models.Model):  #donor model 
+    user = models.OneToOneField(User, on_delete=models.CASCADE) # A user has a donor
     documentType = models.CharField(max_length=15,null=True,blank=False)
     documentId= models.CharField(max_length=15, null=True, blank=False)
     legalNature = models.CharField(max_length=64, null=True,blank=True)
@@ -15,11 +15,15 @@ class Donor(models.Model):
        
     def __str__(self):
         """
-        String para representar el Objeto Modelo
+        String para representar el Objeto 
         """
+<<<<<<< HEAD
         return 'Nombre:%s Apellido:%s Username:%s Documento:%s' % (self.user.first_name, self.user.last_name, self.user.username, self.documentId)
 
 
 
+=======
+        return 'nombre: %s apellido: %s username:%s #docuemento: %s \n' % (self.user.first_name, self.user.last_name, self.user.username, self.documentId)
+>>>>>>> 1fb8fb92c5b48b47d408e0c487b1970b0df17869
     
 
