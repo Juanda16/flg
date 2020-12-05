@@ -10,17 +10,32 @@ from django.http import QueryDict
 from app.service import gettingUser, postingUser, puttingUser, deletingUser
 import json
 from rest_framework import routers, serializers, viewsets
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 #from .serializers import DonorSerializer
 
 
 # Views here.
 def index(request):
-    if not request.user.is_authenticated:
-        return render(request, "index.html", {"message": None})
-    context = {
-        "user": request.user
-    }
-    return render(request, "user/index.html", context)
+    #if not request.user.is_authenticated:
+        return HttpResponse({'mssg': 'User index'})
+
+def login_view(request):
+    username = request.POST["username"]
+    password = request.POST["password"]
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return HttpResponse(user.username + " loggeado")
+    else:
+        return HttpResponse( {"message": "Invalid credentials."})
+
+
+def logout_view(request):
+
+    logout(request)
+    return HttpResponse({"message": "Logged out."})        
+    
 
 
 class DonorView(View): # define an especfic Donor CRUD
