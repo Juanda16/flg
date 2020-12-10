@@ -6,8 +6,8 @@ from app.views import userView
 
 urlpatterns = [
     path("", userView.index, name="index"),
-    path('/index', userView.index, name='index_view'),    
-    path('/<int:pk>',userView.DonorView.as_view(), name='donor_view_detail'), 
-    path("/login", userView.login_view, name="login"),
-    path("/logout", userView.logout_view, name="logout")
+    path('index', userView.index, name='index_view'),    
+    path('<int:pk>',userView.DonorView.as_view(), name='donor_view_detail'), 
+    path("login", userView.login_view, name="login"),
+    path("logout", userView.logout_view, name="logout")
 ]

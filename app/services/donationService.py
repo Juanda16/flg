@@ -1,9 +1,8 @@
-from app.models.donation import Donation
-from app.models.user import User
-from app.models.fund import Fund
+from app.models.donation import Donation,Fund
 from django.contrib.auth.models import User
+from app.models.donor import Donor
 from django.http import QueryDict
-import datetime
+from datetime import date,datetime
 
 # business logic
 
@@ -17,7 +16,7 @@ def postingDonation(request):
     dateDonation = request.POST["Fecha de la donación"]
     statusTransactionState = request.POST["Transacción exitosa(S/N)"]#Revisar ya que dependeria de otra funcionalidad
     legalState = request.POST["Donación legalizada(S/N)"] #Revisar ya que dependeria de otra funcionalidad
-    donorId = User.objects.get(documentId)
+    donorId = request.POST["UserId"] # revisar
     donation = Donation.objects.create(valueDonation=valueDonation,dateDonation = request.POST["Fecha de la donación"], donorId = User.objects.get(documentId))
     return donation
 
@@ -46,7 +45,7 @@ def deletingDonation(request,id):
     return ()
 
 def checkBalance():
-    date = datetime.datetime.now()
+    date = datetime.now()
     timeLastSend = sendMoney()
     if (timeLastSend < Donation.dateDonation and Donation.dateDonation < date):
         balance = Donation.objects.all().aggregate(sum('valueDonation'))
@@ -54,9 +53,9 @@ def checkBalance():
 
 def sendMoney():
     actualBalance = checkBalance()
-    fund = Fund()
+    fund = Fund.objects.get(id=1)
     actualFund = fund.valueFundn + actualBalance
-    timeLastSend = datetime.datetime.now()
+    timeLastSend = datetime.now()
     return timeLastSend
     #return "Exit send to fund"
     

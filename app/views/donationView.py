@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from datetime import date
 from django.views import View
 from django.http import QueryDict
-from app.donationService import gettingDonation, postingDonation, puttingDonation, deletingDonating
+from app.services.donationService import gettingDonation, postingDonation, puttingDonation, deletingDonation
 import json
 from rest_framework import routers, serializers, viewsets
 from django.contrib.auth.decorators import login_required
@@ -15,18 +15,17 @@ from django.contrib.auth import authenticate, login, logout
 
 
 #Views here.
-def index(request):
-        return HttpResponse({'mssg': 'Donation index'})
+#def index(request):
+ #       return HttpResponse({'mssg': 'Donation index'})
 
 
-class DonotionView(View): # define an especfic Donotion CRUD
+class DonationView(View): # define an especfic Donotion CRUD
     def get(self, request, *args, **kwargs): #get
         donation = gettingDonation(id=kwargs['pk'])
         return HttpResponse(donation)
 
         
     def post(self, request, *args, **kwargs): # A especific Donation cant be posted
-
         return HttpResponse("Method not implemented ")
 
    
