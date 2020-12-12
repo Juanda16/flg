@@ -6,11 +6,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddDonorComponent } from './components/add-donor/add-donor.component';
+import { DonorDetailsComponent } from './components/donor-details/donor-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddDonorComponent
+    AddDonorComponent,
+    DonorDetailsComponent
   ],
   imports: [
     BrowserModule,

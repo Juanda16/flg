@@ -1,0 +1,65 @@
+<div>
+    <div *ngIf="currentDonor.id" class="edit-form">
+      <h4>Donor</h4>
+      <form>
+        <div class="form-group">
+          <label for="documentId">documentId</label>
+          <input
+            type="text"
+            class="form-control"
+            id="documentId"
+            [(ngModel)]="currentDonor.documentId"
+            name="documentId"
+          />
+        </div>
+        <div class="form-group">
+          <label for="documentType">documentType</label>
+          <input
+            type="text"
+            class="form-control"
+            id="documentType"
+            [(ngModel)]="currentDonor.documentType"
+            name="description"
+          />
+        </div>
+  
+        <div class="form-group">
+          <label><strong>Status:</strong></label>
+          {{ currentDonor.published ? "Published" : "Pending" }}
+        </div>
+      </form>
+  
+      <button
+        class="badge badge-primary mr-2"
+        *ngIf="currentDonor.published"
+        (click)="updatePublished(false)"
+      >
+        UnPublish
+      </button>
+      <button
+        *ngIf="!currentDonor.published"
+        class="badge badge-primary mr-2"
+        (click)="updatePublished(true)"
+      >
+        Publish
+      </button>
+  
+      <button class="badge badge-danger mr-2" (click)="deleteDonor()">
+        Delete
+      </button>
+  
+      <button
+        type="submit"
+        class="badge badge-success mb-2"
+        (click)="updateDonor()"
+      >
+        Update
+      </button>
+      <p>{{ message }}</p>
+    </div>
+  
+    <div *ngIf="!currentDonor.id">
+      <br />
+      <p>Cannot access this Donor...</p>
+    </div>
+  </div>

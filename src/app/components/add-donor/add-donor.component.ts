@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Donor } from 'src/app/models/donor.model';
+import { DonorService } from 'src/app/services/donor.service';
 
 @Component({
   selector: 'app-add-donor',
@@ -6,10 +8,42 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-donor.component.css']
 })
 export class AddDonorComponent implements OnInit {
+  donor: Donor = {
+    documentId: '',
+    documentType: '',
+    legalNature: false
+  };
 
-  constructor() { }
+  submitted = false;
 
+  constructor(private donorService: DonorService) { }
+  
   ngOnInit(): void {
   }
 
+  saveDonor(): void {
+    const data = {
+      documentId: this.donor.documentId,
+      documentType: this.donor.documentType    
+    };
+
+    this.donorService.create(data)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.submitted = true;
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  newDonor(): void {
+    this.submitted = false;
+    this.donor = {
+      documentId: '',
+      documentType: '',
+      legalNature: false
+    };
+  }
 }
