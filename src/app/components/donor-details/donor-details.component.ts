@@ -40,8 +40,8 @@ export class DonorDetailsComponent implements OnInit {
 
   updatePublished(status: boolean): void {
     const data = {
-      title: this.currentDonor.documentId,
-      description: this.currentDonor.documentType,
+      documentId: this.currentDonor.documentId,
+      documentType: this.currentDonor.documentType,
       legalNature: status
     };
 
@@ -50,6 +50,7 @@ export class DonorDetailsComponent implements OnInit {
         response => {
           this.currentDonor.legalNature= status;
           console.log(response);
+          this.message = response.message;
           //this.message = "Donor was updated";
         },
         error => {
@@ -62,7 +63,8 @@ export class DonorDetailsComponent implements OnInit {
       .subscribe(
         response => {
           console.log(response);
-          this.message = "Donor was updated";
+          this.message = response.message;
+          //this.message = "Donor was updated";
         },
         error => {
           console.log(error);
@@ -74,7 +76,7 @@ export class DonorDetailsComponent implements OnInit {
       .subscribe(
         response => {
           console.log(response);
-          this.router.navigate(['/Donor']);
+          this.router.navigate(['/donor']);
         },
         error => {
           console.log(error);

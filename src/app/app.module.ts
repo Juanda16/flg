@@ -2,25 +2,39 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddDonorComponent } from './components/add-donor/add-donor.component';
 import { DonorDetailsComponent } from './components/donor-details/donor-details.component';
+import { DonorListComponent } from './components/donor-list/donor-list.component';
+import { CookieModule } from 'ngx-cookie';
+//import {csrfTokenService} from "./csrf.service";
+import {HttpClientXsrfModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddDonorComponent,
-    DonorDetailsComponent
+    DonorDetailsComponent,
+    DonorListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CookieModule.forRoot(),
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'csrftoken',
+      headerName: 'X-CSRFToken',
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
+
+
 export class AppModule { }
+
+
+

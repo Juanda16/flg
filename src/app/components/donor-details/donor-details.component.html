@@ -19,7 +19,7 @@
             class="form-control"
             id="documentType"
             [(ngModel)]="currentDonor.documentType"
-            name="description"
+            name="documentType"
           />
         </div>
   
@@ -31,13 +31,13 @@
   
       <button
         class="badge badge-primary mr-2"
-        *ngIf="currentDonor.published"
+        *ngIf="currentDonor.legalNature"
         (click)="updatePublished(false)"
       >
         UnPublish
       </button>
       <button
-        *ngIf="!currentDonor.published"
+        *ngIf="!currentDonor.legalNature"
         class="badge badge-primary mr-2"
         (click)="updatePublished(true)"
       >

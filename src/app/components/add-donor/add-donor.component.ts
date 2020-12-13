@@ -19,9 +19,11 @@ export class AddDonorComponent implements OnInit {
   constructor(private donorService: DonorService) { }
   
   ngOnInit(): void {
+    console.log("add donor component init")
   }
 
   saveDonor(): void {
+    console.log("save donor")
     const data = {
       documentId: this.donor.documentId,
       documentType: this.donor.documentType    
@@ -30,6 +32,7 @@ export class AddDonorComponent implements OnInit {
     this.donorService.create(data)
       .subscribe(
         response => {
+          console.log("donor service creted")
           console.log(response);
           this.submitted = true;
         },
