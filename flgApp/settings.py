@@ -29,13 +29,15 @@ SECRET_KEY = 'q7=_6qpsi-i!o9sgfxa5v@t$a)dg(6)+o2supz!9v=+u&(ozzp'
 DEBUG = True
 
 #ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.pythonanywhere.com','desktop-ffk5sik']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.pythonanywhere.com','desktop-ffk5sik','http://localhost:4200']
 
 #CORS_ALLOWED
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
-       'http://localhost:8000',
-       'http://127.0.0.1:8000'
+    'http://localhost:4200',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+       
 )
 
 # Application definition
@@ -54,16 +56,17 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.common.CommonMiddleware',    
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    
+    'django.middleware.clickjacking.XFrameOptionsMiddleware', 
+       
 ]
+
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

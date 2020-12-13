@@ -7,7 +7,7 @@ from django.urls import path, include
 class DonorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Donor
-        fields = ('documentId', 'documentType','legalNature')
+        fields = ('id','documentId', 'documentType','legalNature','user_id')
 
  
 #data = serializers.serialize("json", DonorModel.objects.all())       
