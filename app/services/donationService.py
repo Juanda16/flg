@@ -7,17 +7,16 @@ from datetime import date,datetime
 # business logic
 
 def gettingDonation(id):
-    id=Donation.donorId
-    donation = Donation.objects.get(donor_id=id)
+    #id=Donation.donorId
+    donation = Donation.objects.get(donorId=id)
     return donation
 
 def postingDonation(request):
-    valueDonation= request.POST["ValueDonation"]
-    dateDonation = request.POST["Fecha de la donación"]
-    statusTransactionState = request.POST["Transacción exitosa(S/N)"]#Revisar ya que dependeria de otra funcionalidad
-    legalState = request.POST["Donación legalizada(S/N)"] #Revisar ya que dependeria de otra funcionalidad
-    donorId = request.POST["UserId"] # revisar
-    donation = Donation.objects.create(valueDonation=valueDonation,dateDonation = request.POST["Fecha de la donación"], donorId = User.objects.get(documentId))
+    valueDonation= request.POST["valueDonation"]
+    statusTransactionState = request.POST["statusTransactionState"]#Revisar ya que dependeria de otra funcionalidad
+    legalState = request.POST["legalState"] #Revisar ya que dependeria de otra funcionalidad
+    #donorId = request.POST["donorId"] # revisar
+    donation = Donation.objects.create(valueDonation=request.POST["valueDonation"], donorId =1, statusTransactionState=request.POST["statusTransactionState"],legalState=request.POST["legalState"])
     return donation
 
 def puttingDonation(request,id):
