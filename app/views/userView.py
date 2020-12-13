@@ -159,16 +159,22 @@ class DonorsView(View): # define Donors CRUD
 
     def get(self, request, *args, **kwargs):  # get
         donors= Donor.objects.all()
-        #return HttpResponse(donors)
-        serializer = DonorSerializer(donors)
-        #serializer = DonorSerializer('\n'.join([donor.documentId for donor in donors]))
+                
+        documentId = request.GET.get('documentId', None)
+        if documentId is not None:
+            donors = donors.filter(documentId__icontains=documentId)
         
-        return JsonResponse(serializer.data,safe=False)
+        donorsSerializer = DonorSerializer(donors, many=True)
+        return JsonResponse(donorsSerializer.data, safe=False)
 
-    @csrf_exempt
-    def post(self, request, *args, **kwargs):  # post
-        donor = postingUser(request)
-        return HttpResponse(donor)
+    def post(self, request, *args, **kwargs): # A especific Donor cant be posted
+
+        donor_data = JSONParser().parse(request)
+        donorSerializer = DonorSerializer(data=donor_data)
+        if donorSerializer.is_valid():
+            donorSerializer.save()
+            return JsonResponse(donorSerializer.data, status=status.HTTP_201_CREATED) 
+        return JsonResponse(donorSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     
     def options(self, request):
