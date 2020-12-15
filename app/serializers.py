@@ -1,4 +1,5 @@
 from .models.donor import Donor
+from .models.donation import Donation
 from rest_framework import routers, serializers, viewsets
 from django.urls import path, include
 from django.contrib.auth.models import User
@@ -76,17 +77,24 @@ class DonorSerializer(serializers.HyperlinkedModelSerializer):
         
         donor= Donor.objects.create(user=user, **validated_data)
         
+<<<<<<< HEAD
         return donor    
 
+=======
+        return donor      
+   
+>>>>>>> a7313b46315ccb4ed8096b7912d0917a2d41018e
     def update(self, instance, validated_data):
-        user_data = validated_data.pop('user')
-        user = instance.user
+        #user_data = validated_data.pop('user')
+        #user = instance.user
         #instance.user.username = validated_data.get('username', instance.user.username)
         instance.user.first_name = validated_data.get('first_name', instance.user.first_name)
         instance.user.last_name = validated_data.get('last_name', instance.user.last_name)
-        instance.user.password = validated_data.get('email', instance.email)
-        instance.user.email = validated_data.get('password', instance.user.password)
-        instance.user.save()
+        instance.user.email = validated_data.get('email', instance.user.email)
+        instance.user.password = validated_data.get('password', instance.user.password)
+        instance.save()
+        return instance # agregado
+    '''
         user.is_premium_member = user_data.get(
             'is_premium_member',
             user.is_premium_member
@@ -95,13 +103,26 @@ class DonorSerializer(serializers.HyperlinkedModelSerializer):
             'has_support_contract',
             user.has_support_contract
          )
+        
         instance.documentId = validated_data.get('content', instance.documentId)
-        instance.documentType = validated_data.get('created', instance.documentTyp)
+        instance.documentType = validated_data.get('created', instance.documentType)
         instance.legalNature = validated_data.get('created', instance.legalNature)
+    
         instance.save()
         return instance
+<<<<<<< HEAD
          
           
+=======
+        '''
+        
+        
+class DonationSerializer(serializers.HyperlinkedModelSerializer):
+    
+    class Meta:
+        model = Donation
+        fields = ('valueDonation','dateDonation','statusTransactionState','legalState','donorId')      
+>>>>>>> a7313b46315ccb4ed8096b7912d0917a2d41018e
 
         
 

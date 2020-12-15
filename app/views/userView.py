@@ -5,20 +5,17 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.models import User
 from datetime import date
+from django.utils import timezone
 from django.views import View
 from django.http import QueryDict
-from app.service import gettingUser, postingUser, puttingUser, deletingUser
+from app.services.userService import gettingUser, postingUser, puttingUser, deletingUser
 from rest_framework import routers, serializers, viewsets
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import auth
 from app.serializers import DonorSerializer, UserSerializer, UserLoginSerializer
 from rest_framework import viewsets, permissions
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view
-from django.http.response import JsonResponse
-from rest_framework.parsers import JSONParser 
-from rest_framework import status
+
 
 
 
@@ -57,17 +54,12 @@ def get_data(request):
 class DonorView(View): # define an especfic Donor CRUD
 
     def get(self, request, *args, **kwargs): #get
-
-        try:
-            donor = Donor.objects.get(id=kwargs['pk'])
-            donorSerializer = DonorSerializer(donor)
-            return JsonResponse(donorSerializer.data)
-
-        except Donor.DoesNotExist:
-            return JsonResponse({'message': 'The donor does not exist'}, status=status.HTTP_404_NOT_FOUND)
-
+        
+        donor = gettingUser(id=kwargs['pk'])
+        return donor
 
     def post(self, request, *args, **kwargs): # A especific Donor cant be posted
+<<<<<<< HEAD
 
         donor_data = JSONParser().parse(request)
         print("donor_data,donor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_data")
@@ -76,33 +68,27 @@ class DonorView(View): # define an especfic Donor CRUD
             donorSerializer.save()
             return JsonResponse(donorSerializer.data, status=status.HTTP_201_CREATED) 
         return JsonResponse(donorSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+=======
+        
+        return HttpResponse("Method not implemented ")
+>>>>>>> a7313b46315ccb4ed8096b7912d0917a2d41018e
 
     def put(self, request, *args, **kwargs): #put
-        try:
-            donor = Donor.objects.get(id=kwargs['pk'])
-            donor_data = JSONParser().parse(request) 
-            donorSerializer = DonorSerializer(donor, data=donor_data) 
-            if donorSerializer.is_valid():  
-                donorSerializer.save() 
-                return JsonResponse(donorSerializer.data) 
-            return JsonResponse(donorSerializer.errors, status=status.HTTP_400_BAD_REQUEST) 
-
-        except Donor.DoesNotExist:
-            return JsonResponse({'message': 'The donor does not exist'}, status=status.HTTP_404_NOT_FOUND)
-
+        
+        id = kwargs['pk']
+        donor = puttingUser(request,id)
+        return donor
 
     def delete(self, request, **kwargs): #delete
-        try:
-            donor = Donor.objects.get(id=kwargs['pk'])
-            donor.delete() 
-            return JsonResponse({'message': 'Donor was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
-        except Donor.DoesNotExist:
-            return JsonResponse({'message': 'The donor does not exist'}, status=status.HTTP_404_NOT_FOUND)
-
+        
+        id = kwargs['pk']
+        donor = deletingUser(id)
+        return donor
 
 class DonorsView(View): # define Donors CRUD
 
-    def get(self, request, *args, **kwargs):  # get
+   def get(self, request, *args, **kwargs): #get
+        
         donors= Donor.objects.all()
                 
         documentId = request.GET.get('documentId', None)
@@ -112,29 +98,16 @@ class DonorsView(View): # define Donors CRUD
         donorsSerializer = DonorSerializer(donors, many=True)
         return JsonResponse(donorsSerializer.data, safe=False)
 
-    def post(self, request, *args, **kwargs): # A especific Donor cant be posted
+   def post(self, request, *args, **kwargs):  # post
+        
+        donor = postingUser(request)
+        return donor
 
-        donor_data = JSONParser().parse(request)
-        donorSerializer = DonorSerializer(data=donor_data)
-        if donorSerializer.is_valid():
-            donorSerializer.save()
-            return JsonResponse(donorSerializer.data, status=status.HTTP_201_CREATED) 
-        return JsonResponse(donorSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    
-    def options(self, request):
-        allowed_methods = "'get', 'post', 'put', 'delete', 'options'"
-        response = HttpResponse()
-        response['allow'] = ','.join([allowed_methods])
-        return response   
-
-    @csrf_exempt
-    def put(self, request, *args, **kwargs): ## A generic Donor cant be puted
+   def put(self, request, *args, **kwargs): ## A generic Donor cant be puted
 
         return HttpResponse("Method not implemented ")
 
-    @csrf_exempt
-    def delete(self, request, *args, **kwargs): # A generic Donor cant be delete
+   def delete(self, request, *args, **kwargs): # A generic Donor cant be delete
 
         return HttpResponse("Method not implemented")
 
