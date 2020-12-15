@@ -1,4 +1,5 @@
 from .models.donor import Donor
+from .models.donation import Donation
 from rest_framework import routers, serializers, viewsets
 from django.urls import path, include
 from django.contrib.auth.models import User
@@ -27,7 +28,11 @@ class DonorSerializer(serializers.HyperlinkedModelSerializer):
         
         return donor
 
-        
+class DonationSerializer(serializers.HyperlinkedModelSerializer):
+    
+    class Meta:
+        model = Donation
+        fields = ('valueDonation','dateDonation','statusTransactionState','legalState','donorId')        
 
  
 #data = serializers.serialize("json", DonorModel.objects.all())       

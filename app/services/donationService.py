@@ -3,45 +3,58 @@ from django.contrib.auth.models import User
 from app.models.donor import Donor
 from django.http import QueryDict
 from datetime import date,datetime
+from app.serializers import DonationSerializer
+from rest_framework import viewsets, permissions
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from django.http.response import JsonResponse
+from rest_framework.parsers import JSONParser 
+from rest_framework import status
 
 # business logic
 
 def gettingDonation(id):
-    #id=Donation.donorId
-    donation = Donation.objects.get(donorId=id)
-    return donation
+   
+    try:
+        donation = Donation.objects.get(donorId=id)
+        donationSerializer = DonationSerializer(donation)
+        return JsonResponse(donationSerializer.data)
+
+    except Donation.DoesNotExist:
+        return JsonResponse({'message': 'The donation does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
 
 def postingDonation(request):
-    valueDonation= request.POST["valueDonation"]
-    statusTransactionState = request.POST["statusTransactionState"]#Revisar ya que dependeria de otra funcionalidad
-    legalState = request.POST["legalState"] #Revisar ya que dependeria de otra funcionalidad
-    #donorId = request.POST["donorId"] # revisar
-    donation = Donation.objects.create(valueDonation=request.POST["valueDonation"], donorId =1, statusTransactionState=request.POST["statusTransactionState"],legalState=request.POST["legalState"])
-    return donation
+    donation_data = JSONParser().parse(request)
+    donationSerializer = DonationSerializer(data=donation_data)
+    if donationSerializer.is_valid():
+        donationSerializer.save()
+        return JsonResponse(donationSerializer.data, status=status.HTTP_201_CREATED) 
+    return JsonResponse(donationSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 def puttingDonation(request,id):
-    put = QueryDict(request.body)
-        
+    try:        
+        donation = Donation.objects.get(id=id)
+        donation_data = JSONParser().parse(request) 
+        donationSerializer = DonationSerializer(donation, data=donation_data) 
+        if donationSerializer.is_valid():  
+            donationSerializer.save() 
+            return JsonResponse(donationSerializer.data) 
+        return JsonResponse(donationSerializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+
+    except Donation.DoesNotExist:
+            return JsonResponse({'message': 'The donation does not exist'}, status=status.HTTP_404_NOT_FOUND)
+    
+
+def deletingDonation(id):
     try:
-        donorId = id
-        donation = Donation.objects.get(id=donorId)
-        donation.valueDonation = put.get('ValueDonation')
-        donation.dateDonation = put.get('dateDonation')
-        donation.statusTransactionState = put.get('statusTransactionState')
-        donation.legalState = put.get('legalState')
-        donation.save()
-        
-        return donation
+        donation = Donation.objects.get(id=id)
+        donation.delete() 
+        return JsonResponse({'message': 'Donation was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+    except Donation.DoesNotExist:
+        return JsonResponse({'message': 'The donation does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
-    except Donation.full_clean(exclude=''): # revisar
-
-        return "donation doesn´t exist"
-
-def deletingDonation(request,id):
-    donorId=id
-    donation=Donation.objects.get(id=donorId)
-    donation.delete()
-    return ()
 
 def checkBalance():
     date = datetime.now()
