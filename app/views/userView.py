@@ -54,31 +54,6 @@ def get_data(request):
         return JsonResponse(serializer.data, safe=False)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def donor_detail(request, pk):
-    # find tutorial by pk (id)
-    try:
-        donor = Donor.objects.get(pk=pk)
-    except Donor.DoesNotExist:
-        return JsonResponse({'message': 'The donor does not exist'}, status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'GET':
-        donorSerializer = DonorSerializer(donor)
-        return JsonResponse(donorSerializer.data)
-
-    elif request.method == 'PUT': 
-         donor_data = JSONParser().parse(request) 
-         donorSerializer = DonorSerializer(donor, data=donor_data) 
-         if donorSerializer.is_valid(): 
-             donorSerializer.save() 
-             return JsonResponse(donorSerializer.data) 
-         return JsonResponse(donorSerializer.errors, status=status.HTTP_400_BAD_REQUEST) 
-
-    elif request.method == 'DELETE': 
-        donor.delete() 
-        return JsonResponse({'message': 'Tutorial was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
-
-
 class DonorView(View): # define an especfic Donor CRUD
 
     def get(self, request, *args, **kwargs): #get
@@ -106,7 +81,7 @@ class DonorView(View): # define an especfic Donor CRUD
             donor = Donor.objects.get(id=kwargs['pk'])
             donor_data = JSONParser().parse(request) 
             donorSerializer = DonorSerializer(donor, data=donor_data) 
-            if donorSerializer.is_valid(): 
+            if donorSerializer.is_valid():  
                 donorSerializer.save() 
                 return JsonResponse(donorSerializer.data) 
             return JsonResponse(donorSerializer.errors, status=status.HTTP_400_BAD_REQUEST) 
@@ -119,40 +94,9 @@ class DonorView(View): # define an especfic Donor CRUD
         try:
             donor = Donor.objects.get(id=kwargs['pk'])
             donor.delete() 
-            return JsonResponse({'message': 'Tutorial was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+            return JsonResponse({'message': 'Donor was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
         except Donor.DoesNotExist:
             return JsonResponse({'message': 'The donor does not exist'}, status=status.HTTP_404_NOT_FOUND)
-
-
-""" class DonorView(View): # define an especfic Donor CRUD
-
-    
-    def get(self, request, *args, **kwargs): #get
-        
-        #if user.is_authenticated:
-        donor = gettingUser(    )
-        serializer = DonorSerializer(donor)
-        
-        return JsonResponse(serializer.data, safe=False)
-        
-    
-    @csrf_exempt    
-    def post(self, request, *args, **kwargs): # A especific Donor cant be posted
-
-        return HttpResponse("Method not implemented ")
-
-    #@login_required
-    @csrf_exempt
-    def put(self, request, *args, **kwargs): #put
-        id = kwargs['pk']
-        donor = puttingUser(request, id)
-        return HttpResponse(donor)
-
-    #@login_required
-    def delete(self, request, **kwargs): #delete
-        id = kwargs['pk']
-        deletingUser(request, id)
-        return HttpResponse("El usuario ha sido eliminado") """
 
 
 class DonorsView(View): # define Donors CRUD
@@ -193,12 +137,5 @@ class DonorsView(View): # define Donors CRUD
 
         return HttpResponse("Method not implemented")
 
-class DonorViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed  or edited.
-    """
-    queryset = Donor.objects.all()
-    serializer_class = DonorSerializer
-    
-    #permission_classes = [permissions.IsAuthenticated]  
+  
         
