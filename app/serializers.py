@@ -2,6 +2,8 @@ from .models.donor import Donor
 from rest_framework import routers, serializers, viewsets
 from django.urls import path, include
 from django.contrib.auth.models import User
+from django.contrib.auth import password_validation, authenticate
+from rest_framework.authtoken.models import Token
 
 #serializer implemented to send JSON response
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -31,6 +33,29 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
         return instance
 
+class UserLoginSerializer(serializers.Serializer):
+
+    # Campos que vamos a requerir
+    email = serializers.EmailField()
+    password = serializers.CharField(max_length=64)
+
+    # Primero validamos los datos
+    def validate(self, data):
+
+        # authenticate recibe las credenciales, si son válidas devuelve el objeto del usuario
+        user = authenticate(username=data['email'], password=data['password'])
+        if not user:
+            raise serializers.ValidationError('Las credenciales no son válidas')
+
+        # Guardamos el usuario en el contexto para posteriormente en create recuperar el token
+        self.context['user'] = user
+        return data
+
+    def create(self, data):
+        """Generar o recuperar token."""
+        token, created = Token.objects.get_or_create(user=self.context['user'])
+        return self.context['user'], token.key
+
 
 class DonorSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(
@@ -41,13 +66,17 @@ class DonorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Donor
         fields = ('id','documentId', 'documentType','legalNature','user')
-
+        
     def create(self, validated_data):
         user_data = validated_data.pop('user')
         user = User.objects.create(**user_data)
+        user.set_password(validated_data['password'])
+        user.is_active = True
+        user.save()
+        
         donor= Donor.objects.create(user=user, **validated_data)
         
-        return donor
+        return donor    
 
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user')
@@ -71,7 +100,7 @@ class DonorSerializer(serializers.HyperlinkedModelSerializer):
         instance.legalNature = validated_data.get('created', instance.legalNature)
         instance.save()
         return instance
-        
+         
           
 
         

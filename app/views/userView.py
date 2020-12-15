@@ -12,7 +12,7 @@ from rest_framework import routers, serializers, viewsets
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import auth
-from app.serializers import DonorSerializer
+from app.serializers import DonorSerializer, UserSerializer, UserLoginSerializer
 from rest_framework import viewsets, permissions
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
@@ -70,6 +70,7 @@ class DonorView(View): # define an especfic Donor CRUD
     def post(self, request, *args, **kwargs): # A especific Donor cant be posted
 
         donor_data = JSONParser().parse(request)
+        print("donor_data,donor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_data")
         donorSerializer = DonorSerializer(data=donor_data)
         if donorSerializer.is_valid():
             donorSerializer.save()
@@ -137,5 +138,17 @@ class DonorsView(View): # define Donors CRUD
 
         return HttpResponse("Method not implemented")
 
-  
+class LoginUserView(View):
+
+    def post(self, request, *args, **kwargs):
+        """User sign in."""
+        user_data = JSONParser().parse(request)
+        serializer = UserLoginSerializer(data=user_data)
+        serializer.is_valid(raise_exception=True)
+        user, token = serializer.save()
+        data = {
+            'user': UserSerializer(user).data,
+            'access_token': token
+        }
+        return JsonResponse(data, status=status.HTTP_201_CREATED)
         
