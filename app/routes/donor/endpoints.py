@@ -8,7 +8,7 @@ urlpatterns = [
     path("", userView.DonorsView.as_view(), name="donor_View_Post"),
     path('<int:pk>',userView.DonorView.as_view(), name='donor_view_detail'), 
     #path('<int:pk>',userView.donor_detail, name='donor_detail'),
-    path("login", userView.login_view, name="login"),
+    path("login", userView.views.LoginUserView.as_view(), name="login"),
     path("logout", userView.logout_view, name="logout"),
     
 ]

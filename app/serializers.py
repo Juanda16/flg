@@ -9,6 +9,16 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model= User
         fields= ('id','username','first_name','last_name','email') 
 
+    def create(self, validated_data):
+        user = User(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.is_active = True
+        user.save()
+        return user
+
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user')
         user = instance.user
