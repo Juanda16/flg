@@ -5,15 +5,17 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.models import User
 from datetime import date
+from django.utils import timezone
 from django.views import View
 from django.http import QueryDict
-from app.service import gettingUser, postingUser, puttingUser, deletingUser
+from app.services.userService import gettingUser, postingUser, puttingUser, deletingUser
 from rest_framework import routers, serializers, viewsets
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import auth
 from app.serializers import DonorSerializer
 from rest_framework import viewsets, permissions
+
 
 
 
@@ -47,47 +49,48 @@ def get_data(request):
     if request.method == 'GET':
         serializer = DonorSerializer(data, many=True)
         return JsonResponse(serializer.data, safe=False)
- 
+
+
 class DonorView(View): # define an especfic Donor CRUD
 
-    
     def get(self, request, *args, **kwargs): #get
         
-        #if user.is_authenticated:
         donor = gettingUser(id=kwargs['pk'])
-        serializer = DonorSerializer(donor)
-        
-        return JsonResponse(serializer.data, safe=False)
-        
-    
-        
-    def post(self, request, *args, **kwargs): # A especific Donor cant be posted
+        return donor
 
+    def post(self, request, *args, **kwargs): # A especific Donor cant be posted
+        
         return HttpResponse("Method not implemented ")
 
-    @login_required
     def put(self, request, *args, **kwargs): #put
+        
         id = kwargs['pk']
-        donor = puttingUser(request, id)
-        return HttpResponse(donor)
+        donor = puttingUser(request,id)
+        return donor
 
-    @login_required
     def delete(self, request, **kwargs): #delete
+        
         id = kwargs['pk']
-        deletingUser(request, id)
-        return HttpResponse("El usuario ha sido eliminado")
-
+        donor = deletingUser(id)
+        return donor
 
 class DonorsView(View): # define Donors CRUD
 
    def get(self, request, *args, **kwargs): #get
-    
-    return HttpResponse(Donor.objects.all())
+        
+        donors= Donor.objects.all()
+                
+        documentId = request.GET.get('documentId', None)
+        if documentId is not None:
+            donors = donors.filter(documentId__icontains=documentId)
+        
+        donorsSerializer = DonorSerializer(donors, many=True)
+        return JsonResponse(donorsSerializer.data, safe=False)
 
-   
-   def post(self, request, *args, **kwargs):#post
-      donor=postingUser(request)
-      return HttpResponse(donor)
+   def post(self, request, *args, **kwargs):  # post
+        
+        donor = postingUser(request)
+        return donor
 
    def put(self, request, *args, **kwargs): ## A generic Donor cant be puted
 
@@ -97,12 +100,5 @@ class DonorsView(View): # define Donors CRUD
 
         return HttpResponse("Method not implemented")
 
-class DonorViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = Donor.objects.all()
-    serializer_class = DonorSerializer
-    
-    #permission_classes = [permissions.IsAuthenticated]  
+  
         

@@ -2,7 +2,7 @@ from app.models.donation import Donation,Fund
 from django.contrib.auth.models import User
 from app.models.donor import Donor
 from django.http import QueryDict
-from datetime import date,datetime
+from datetime import date
 from app.serializers import DonationSerializer
 from rest_framework import viewsets, permissions
 from django.views.decorators.csrf import csrf_exempt
@@ -10,6 +10,9 @@ from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
+import datetime
+
+
 
 # business logic
 
