@@ -5,9 +5,10 @@ from django.contrib.auth import views as auth_views
 from app.views import userView
 
 urlpatterns = [
-    path("", userView.index, name="index"),
-    path('index', userView.index, name='index_view'),    
+    path("", userView.DonorsView.as_view(), name="donor_View_Post"),
     path('<int:pk>',userView.DonorView.as_view(), name='donor_view_detail'), 
+    #path('<int:pk>',userView.donor_detail, name='donor_detail'),
     path("login", userView.login_view, name="login"),
-    path("logout", userView.logout_view, name="logout")
+    path("logout", userView.logout_view, name="logout"),
+    
 ]

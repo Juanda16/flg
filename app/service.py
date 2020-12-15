@@ -10,7 +10,7 @@ def gettingUser(id):
     return donor
 
 def postingUser(request):
-    userName= request.POST["userName"]
+    userName= request.POST["username"]
     email = request.POST["email"]
     password = request.POST["password"]
     user = User.objects.create_user(userName, email, password)
@@ -21,14 +21,14 @@ def puttingUser(request,id):
     put = QueryDict(request.body)
         
     try:
-        userid = id
+        """ userid = id
         user = User.objects.get(id=userid)
         user.first_name = put.get('first_name')
         user.last_name = put.get('last_name')
         user.email = put.get('email')
         user.password = put.get('password')
-        user.save()
-        donor = Donor.objects.get(user_id=userid)
+        user.save() """
+        donor = Donor.objects.get(id=id)
         donor.documentType = put.get('documentType')
         donor.documentId = put.get('documentId')
         donor.save()
