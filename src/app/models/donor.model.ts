@@ -4,3 +4,13 @@ export class Donor {
     documentType?: string;
     legalNature?: boolean;
   }
+
+  export class User {
+    constructor(
+      username: string,
+      password: string,
+      email?: string,
+      ){
+  
+    }
+  }

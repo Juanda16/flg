@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { Donor } from '../models/donor.model';
 import { HttpHeaders } from '@angular/common/http';
+import {CookieService} from 'ngx-cookie';
 
 const baseUrl = '//127.0.0.1:8000/api/v1/donor';
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
-    Authorization: 'X-CSRFToken'
+    'X-CSRFToken': 'csrftoken'
   })
 };
 
@@ -17,14 +18,14 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class DonorService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public cookieService: CookieService) { }
 
   get(id): Observable<any> {
     return this.http.get(`${baseUrl}/${id}`);
   }
 
   create(data): Observable<any> {
-    return this.http.post(`${baseUrl}/`, data);
+    return this.http.post(`${baseUrl}/`, data ,httpOptions);
   }
 
   update(id, data): Observable<any> {

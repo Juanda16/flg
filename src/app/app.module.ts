@@ -7,16 +7,19 @@ import { AppComponent } from './app.component';
 import { AddDonorComponent } from './components/add-donor/add-donor.component';
 import { DonorDetailsComponent } from './components/donor-details/donor-details.component';
 import { DonorListComponent } from './components/donor-list/donor-list.component';
-import { CookieModule } from 'ngx-cookie';
+import { CookieModule, CookieService } from 'ngx-cookie';
 //import {csrfTokenService} from "./csrf.service";
 import {HttpClientXsrfModule} from '@angular/common/http';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddDonorComponent,
     DonorDetailsComponent,
-    DonorListComponent
+    DonorListComponent,
+    LoginComponent,
+   //RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,7 @@ import {HttpClientXsrfModule} from '@angular/common/http';
       headerName: 'X-CSRFToken',
     }),
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 
