@@ -5,7 +5,7 @@ import { Donor,User } from '../models/donor.model';
 import { HttpHeaders } from '@angular/common/http';
 import {CookieService} from 'ngx-cookie';
 
-const baseUrl = '//127.0.0.1:8000/api/v1/donor';
+const baseUrl = '//127.0.0.1:8000/api/v1/donation';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -17,7 +17,8 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class DonorService {
+export class DonationService {
+
   constructor(private http: HttpClient, public cookieService: CookieService) { }
 
   get(id): Observable<any> {
@@ -40,12 +41,12 @@ export class DonorService {
     return this.http.get(`${baseUrl}/`);
   }
 
-  findByFirst_name(first_name: any): Observable<User[]> {
+  /* findByFirst_name(first_name: any): Observable<User[]> {
     return this.http.get<User[]>(`${baseUrl}?first_name=${first_name}`);
-  }
+  } */
 
-  deleteAll(): Observable<any> {
-    return this.http.delete(baseUrl);
-  }
- 
+  
+
+
+
 }

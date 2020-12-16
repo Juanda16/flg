@@ -12,7 +12,6 @@ import { CookieModule, CookieService } from 'ngx-cookie';
 import {HttpClientXsrfModule} from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { LoginService } from './services/login.service';
-import { DonationComponent } from './components/donation/donation.component';
 import { AddDonationComponent } from './components/add-donation/add-donation.component';
 
 @NgModule({
@@ -22,7 +21,6 @@ import { AddDonationComponent } from './components/add-donation/add-donation.com
     DonorDetailsComponent,
     DonorListComponent,
     LoginComponent,
-    DonationComponent,
     AddDonationComponent,
    //RegisterComponent,
   ],

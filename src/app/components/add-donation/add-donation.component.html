@@ -1,1 +1,28 @@
-<p>add-donation works!</p>
+<div>
+    <div class="submit-form">
+        <div *ngIf="!submitted">
+            <div class="form-group">
+                <label for="valueDonation">valueDonation</label>
+                <input type="text" class="form-control" id="valueDonation" required [(ngModel)]="donation.valueDonation"
+                    name="valueDonation" />
+            </div>
+            <div>
+                <select name="PaymentMethod">
+                    <option value="1">Credit Card</option> 
+                    <option value="2">PSE</option> 
+                    <option value="3">Money transfer</option>
+                    <option value="10">Cash</option>                
+                </select>
+            </div>
+
+
+            <button (click)="saveDonation()" class="btn btn-success">Submit</button>
+        </div>
+            
+
+        <div *ngIf="submitted">
+            <h4>donation was submitted successfully!</h4>
+            <button class="btn btn-success" (click)="newDonation()">Add</button>
+        </div>
+    </div>
+</div>
