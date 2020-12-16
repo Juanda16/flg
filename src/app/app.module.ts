@@ -11,6 +11,9 @@ import { CookieModule, CookieService } from 'ngx-cookie';
 //import {csrfTokenService} from "./csrf.service";
 import {HttpClientXsrfModule} from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
+import { LoginService } from './services/login.service';
+import { DonationComponent } from './components/donation/donation.component';
+import { AddDonationComponent } from './components/add-donation/add-donation.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,8 @@ import { LoginComponent } from './components/login/login.component';
     DonorDetailsComponent,
     DonorListComponent,
     LoginComponent,
+    DonationComponent,
+    AddDonationComponent,
    //RegisterComponent,
   ],
   imports: [
@@ -32,7 +37,7 @@ import { LoginComponent } from './components/login/login.component';
       headerName: 'X-CSRFToken',
     }),
   ],
-  providers: [CookieService],
+  providers: [CookieService,LoginService],
   bootstrap: [AppComponent]
 })
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Donor } from 'src/app/models/donor.model';
+import { User } from 'src/app/models/donor.model';
 import { DonorService } from 'src/app/services/donor.service';
 
 @Component({
@@ -8,10 +8,10 @@ import { DonorService } from 'src/app/services/donor.service';
   styleUrls: ['./donor-list.component.css']
 })
 export class DonorListComponent implements OnInit {
-  donor?: Donor[];
-  currentDonor?: Donor;
+  donor?: User[];
+  currentDonor?: User;
   currentIndex = -1;
-  documentId = '';
+  first_name = '';
 
   constructor(private donorService: DonorService) { }
 
@@ -37,7 +37,7 @@ export class DonorListComponent implements OnInit {
     this.currentIndex = -1;
   }
 
-  setActiveDonor(donor: Donor, index: number): void {
+  setActiveDonor(donor: User, index: number): void {
     this.currentDonor = donor;
     this.currentIndex = index;
   }
@@ -54,8 +54,8 @@ export class DonorListComponent implements OnInit {
         });
   }
 
-   searchDocumentId(): void {
-    this.donorService.findByDocumentId(this.documentId)
+  searchFirst_name(): void {
+    this.donorService.findByFirst_name(this.first_name)
       .subscribe(
         data => {
           this.donor = data;
@@ -64,6 +64,6 @@ export class DonorListComponent implements OnInit {
         error => {
           console.log(error);
         });
-  } 
+  }
 
 }

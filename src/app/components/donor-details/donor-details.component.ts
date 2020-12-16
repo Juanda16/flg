@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DonorService } from 'src/app/services/donor.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Donor } from 'src/app/models/donor.model';
+import { Donor,User } from 'src/app/models/donor.model';
 
 @Component({
   selector: 'app-donor-details',
@@ -9,10 +9,12 @@ import { Donor } from 'src/app/models/donor.model';
   styleUrls: ['./donor-details.component.css']
 })
 export class DonorDetailsComponent implements OnInit {
-  currentDonor: Donor = {
-    documentId: '',
-    documentType: '',
-    legalNature: false
+  currentDonor: User = {
+    username: '',
+    first_name: '',
+    last_name : '',
+    email:'',
+    is_active: false,
   };
   message = '';
 
@@ -40,15 +42,19 @@ export class DonorDetailsComponent implements OnInit {
 
   updatePublished(status: boolean): void {
     const data = {
-      documentId: this.currentDonor.documentId,
-      documentType: this.currentDonor.documentType,
-      legalNature: status
+      username: this.currentDonor.username,
+      password:this.currentDonor.password,
+      first_name: this.currentDonor.first_name,
+      last_name : this.currentDonor.last_name,
+      email:this.currentDonor.email ,
+      is_active:status
+      
     };
 
     this.donorService.update(this.currentDonor.id, data)
       .subscribe(
         response => {
-          this.currentDonor.legalNature= status;
+          this.currentDonor.is_active= status;
           console.log(response);
           this.message = response.message;
           //this.message = "Donor was updated";

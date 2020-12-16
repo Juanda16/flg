@@ -1,63 +1,61 @@
 <div class="list row">
-    <div class="col-md-8">
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search by documentId"
-          [(ngModel)]="documentId"
-        />
-        <div class="input-group-append">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            (click)="searchDocumentId()"
-          >
-            Search
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <h4>Donor List</h4>
-      <ul class="list-group">
-        <li
-          class="list-group-item"
-          *ngFor="let donor of donor; let i = index"
-          [class.active]="i == currentIndex"
-          (click)="setActiveDonor(donor, i)"
+  <div class="col-md-8">
+    <div class="input-group mb-3">
+      <input 
+      type="text" 
+      class="form-control" 
+      placeholder="Search by first name" 
+      [(ngModel)]="first_name"
+      />
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" 
+        type="button" 
+        (click)="searchFirst_name()"
         >
-          {{ donor.documentId }}
-        </li>
-      </ul>
-  
-      <button class="m-3 btn btn-sm btn-danger" (click)="removeAllDonor()">
-        Remove All
-      </button>
-    </div>
-    <div class="col-md-6">
-      <div *ngIf="currentDonor">
-        <h4>Donor</h4>
-        <div>
-          <label><strong>documentId:</strong></label> {{ <currentDonor class="documentId"></currentDonor> }}
-        </div>
-        <div>
-          <label><strong>documentType:</strong></label>
-          {{ currentDonor.documentType }}
-        </div>
-        <div>
-          <label><strong>Status:</strong></label>
-          {{ currentDonor.legalNature ? "Published" : "Pending" }}
-        </div>
-  
-        <a class="badge badge-warning" routerLink="/donor/{{ currentDonor.id }}">
-          Edit
-        </a>
-      </div>
-  
-      <div *ngIf="!currentDonor">
-        <br />
-        <p>Please click on a Donor...</p>
+          Search
+        </button>
       </div>
     </div>
   </div>
+  <div class="col-md-6">
+    <h4>Donor List</h4>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let donor of donor; let i = index" [class.active]="i == currentIndex"
+        (click)="setActiveDonor(donor, i)">
+        {{ donor.first_name }}
+      </li>
+    </ul>
+
+    <button class="m-3 btn btn-sm btn-danger" (click)="removeAllDonor()">
+      Remove All
+    </button>
+  </div>
+  <div class="col-md-6">
+    <div *ngIf="currentDonor">
+      <h4>Donor</h4>
+      <div>
+        <label><strong>username:</strong></label> {{ currentDonor.username }}
+      </div>
+      <div>
+        <label><strong>first name:</strong></label> {{ currentDonor.first_name }}
+      </div>
+      <div>
+        <label><strong>last name:</strong></label>
+        {{ currentDonor.last_name }}
+      </div>
+      <div>
+        <label><strong>Status:</strong></label>
+        {{ currentDonor.is_active? "Active" : "Pending" }}
+      </div>
+
+      <a class="badge badge-warning" routerLink="/donor/{{ currentDonor.id }}">
+        Edit
+      </a>
+    </div>
+
+    <div *ngIf="!currentDonor">
+      <br />
+      <p>Please click on a Donor...</p>
+    </div>
+  </div>
+</div>

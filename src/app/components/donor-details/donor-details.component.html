@@ -3,43 +3,65 @@
       <h4>Donor</h4>
       <form>
         <div class="form-group">
-          <label for="documentId">documentId</label>
+          <label for="username">username</label>
           <input
             type="text"
             class="form-control"
-            id="documentId"
-            [(ngModel)]="currentDonor.documentId"
-            name="documentId"
+            id="username"
+            [(ngModel)]="currentDonor.username"
+            name="username"
           />
         </div>
         <div class="form-group">
-          <label for="documentType">documentType</label>
+          <label for="first_name">first_name</label>
           <input
             type="text"
             class="form-control"
-            id="documentType"
-            [(ngModel)]="currentDonor.documentType"
-            name="documentType"
+            id="first_name"
+            [(ngModel)]="currentDonor.first_name"
+            name="first_name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="last_name">last_name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="last_name"
+            [(ngModel)]="currentDonor.last_name"
+            name="last_name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">email</label>
+          <input
+            type="text"
+            class="form-control"
+            id="email"
+            [(ngModel)]="currentDonor.email"
+            name="email"
           />
         </div>
   
         <div class="form-group">
           <label><strong>Status:</strong></label>
-          {{ currentDonor.published ? "Published" : "Pending" }}
+          {{ currentDonor.is_active ? "Is_active" : "Pending" }}
         </div>
       </form>
   
       <button
         class="badge badge-primary mr-2"
-        *ngIf="currentDonor.legalNature"
-        (click)="updatePublished(false)"
+        *ngIf="currentDonor.is_active"
+        (click)="updateIs_active(false)"
       >
         UnPublish
       </button>
       <button
-        *ngIf="!currentDonor.legalNature"
+        *ngIf="!currentDonor.is_active"
         class="badge badge-primary mr-2"
-        (click)="updatePublished(true)"
+        (click)="updateIs_active(true)"
       >
         Publish
       </button>

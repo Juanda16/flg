@@ -15,14 +15,14 @@ export class LoginComponent implements OnInit {
     //this.cookieService.set( 'Test', 'Hello World' );
     //this.cookieValue = this.cookieService.get('csrftoken');
   }
-  public user: any = new User(null, null, null);
+  public user: any = new User();
 
   ngOnInit(): void {
   }
   LoginUser(){
   	console.log("login user");
     this.auth.login(this.user)
-    .then((data)=>{
+    /* .then((data)=>{
       console.log(data);
       if(data.status==200){
         if(data.json()['status']=='success'){
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
       else{
         console.log("Some error occured")
       }
-    })
+    }) */
   	
   }
     get diagnostic() { return JSON.stringify(this.user); }

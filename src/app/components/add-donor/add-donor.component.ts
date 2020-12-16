@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Donor } from 'src/app/models/donor.model';
+import { Donor,User } from 'src/app/models/donor.model';
 import { DonorService } from 'src/app/services/donor.service';
 
 @Component({
@@ -8,12 +8,14 @@ import { DonorService } from 'src/app/services/donor.service';
   styleUrls: ['./add-donor.component.css']
 })
 export class AddDonorComponent implements OnInit {
-  donor: Donor = {
-    documentId: '',
-    documentType: '',
-    legalNature: false
+  user: User = {
+    username: '',
+    password: '',
+    first_name: '',
+    last_name : '',
+    email:'',
+    is_active: false    
   };
-
   submitted = false;
 
   constructor(private donorService: DonorService) { }
@@ -25,14 +27,16 @@ export class AddDonorComponent implements OnInit {
   saveDonor(): void {
     console.log("save donor")
     const data = {
-      documentId: this.donor.documentId,
-      documentType: this.donor.documentType    
+      username: this.user.username,
+      password:this.user.password,
+      first_name: this.user.first_name,
+      last_name : this.user.last_name,
+      email:this.user.email  
     };
 
     this.donorService.create(data)
       .subscribe(
         response => {
-          console.log("donor service creted")
           console.log(response);
           this.submitted = true;
         },
@@ -43,10 +47,12 @@ export class AddDonorComponent implements OnInit {
 
   newDonor(): void {
     this.submitted = false;
-    this.donor = {
-      documentId: '',
-      documentType: '',
-      legalNature: false
+    this.user = {
+    username: '',
+    first_name: '',
+    last_name : '',
+    email:'',
+    is_active: false,
     };
   }
 }

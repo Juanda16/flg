@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { from, Observable } from 'rxjs';
-import { Donor } from '../models/donor.model';
+import { Donor,User } from '../models/donor.model';
 import { HttpHeaders } from '@angular/common/http';
 import {CookieService} from 'ngx-cookie';
 
@@ -25,7 +25,7 @@ export class DonorService {
   }
 
   create(data): Observable<any> {
-    return this.http.post(`${baseUrl}/`, data ,httpOptions);
+    return this.http.post(`${baseUrl}/`, data );
   }
 
   update(id, data): Observable<any> {
@@ -40,8 +40,8 @@ export class DonorService {
     return this.http.get(`${baseUrl}/`);
   }
 
-  findByDocumentId(documentId: any): Observable<Donor[]> {
-    return this.http.get<Donor[]>(`${baseUrl}?documentId=${documentId}`);
+  findByFirst_name(first_name: any): Observable<Donor[]> {
+    return this.http.get<User[]>(`${baseUrl}?first_name=${first_name}`);
   }
 
   deleteAll(): Observable<any> {

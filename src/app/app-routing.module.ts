@@ -6,7 +6,7 @@ import { DonorListComponent } from './components/donor-list/donor-list.component
 import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'donor', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'donor', component: DonorListComponent },
   { path: 'donor/:id', component: DonorDetailsComponent },
   { path: 'add', component: AddDonorComponent },
