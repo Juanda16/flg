@@ -77,13 +77,8 @@ class DonorSerializer(serializers.HyperlinkedModelSerializer):
         
         donor= Donor.objects.create(user=user, **validated_data)
         
-<<<<<<< HEAD
-        return donor    
-
-=======
         return donor      
    
->>>>>>> a7313b46315ccb4ed8096b7912d0917a2d41018e
     def update(self, instance, validated_data):
         #user_data = validated_data.pop('user')
         #user = instance.user
@@ -110,10 +105,6 @@ class DonorSerializer(serializers.HyperlinkedModelSerializer):
     
         instance.save()
         return instance
-<<<<<<< HEAD
-         
-          
-=======
         '''
         
         
@@ -122,7 +113,6 @@ class DonationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Donation
         fields = ('valueDonation','dateDonation','statusTransactionState','legalState','donorId')      
->>>>>>> a7313b46315ccb4ed8096b7912d0917a2d41018e
 
         
 
