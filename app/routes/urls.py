@@ -14,6 +14,6 @@ urlpatterns = [
     path('api/v1/donor/',include('app.routes.donor.endpoints')),
     path('api/v1/donation/', include('app.routes.donation.endpoints')),
     #path('api/v1/certificate', userView.DonorsView.as_view(), name='donor_view'),
-    url(r'^getData/', userView.get_data),
+    #url(r'^getData/', userView.get_data),
     #url(r'^.*', TemplateView.as_view(template_name="home.html"), name="home")
  ]

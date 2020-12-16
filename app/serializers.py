@@ -5,14 +5,34 @@ from django.urls import path, include
 from django.contrib.auth.models import User
 from django.contrib.auth import password_validation, authenticate
 from rest_framework.authtoken.models import Token
+from rest_framework.validators import UniqueValidator
+
+
+
 
 #serializer implemented to send JSON response
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model= User
-        fields= ('id','username','first_name','last_name','email') 
+        fields= ('id','username','first_name','last_name','email','is_active') 
 
-    def create(self, validated_data):
+    """ def validate(self, data):
+        passwd = data['password']
+        passwd_conf = data['password_confirmation']
+        if passwd != passwd_conf:
+            raise serializers.ValidationError("Las contraseñas no coinciden")
+        password_validation.validate_password(passwd)
+
+        return data """
+
+    def create(self, data):
+        user = User.objects.create_user(**data)
+        user.is_active = True
+        user.save()
+
+        return user
+
+    """   def create(self, validated_data):
         user = User(
             email=validated_data['email'],
             username=validated_data['username']
@@ -22,17 +42,19 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         user.save()
         return user
 
+        
+
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user')
         user = instance.user
         #instance.username = validated_data.get('username', instance.user.username)
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
-        instance.password = validated_data.get('email', instance.password)
-        instance.user.email = validated_data.get('password', instance.email)
+        instance.password = validated_data.get('password', instance.password)
+        instance.user.email = validated_data.get('email', instance.email)
         user.save()
 
-        return instance
+        return instance """
 
 class UserLoginSerializer(serializers.Serializer):
 

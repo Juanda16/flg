@@ -8,13 +8,18 @@ from datetime import date
 from django.utils import timezone
 from django.views import View
 from django.http import QueryDict
-from app.services.userService import gettingUser, postingUser, puttingUser, deletingUser
+from app.services.userService import gettingUser, postingUser, puttingUser, deletingUser, userLogin
 from rest_framework import routers, serializers, viewsets
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import auth
 from app.serializers import DonorSerializer, UserSerializer, UserLoginSerializer
 from rest_framework import viewsets, permissions
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from django.http.response import JsonResponse
+from rest_framework.parsers import JSONParser 
+from rest_framework import status
 
 
 
@@ -42,86 +47,70 @@ def logout_view(request):
     auth.logout(request)
     return HttpResponseRedirect("/donor/loggedout/")       
     
-
-#@csrf_exempt
-def get_data(request):
-    data = Donor.objects.all()
-    if request.method == 'GET':
-        serializer = DonorSerializer(data, many=True)
-        return JsonResponse(serializer.data, safe=False)
-
-
 class DonorView(View): # define an especfic Donor CRUD
 
     def get(self, request, *args, **kwargs): #get
-        
+
         donor = gettingUser(id=kwargs['pk'])
         return donor
 
-    def post(self, request, *args, **kwargs): # A especific Donor cant be posted
-<<<<<<< HEAD
-
-        donor_data = JSONParser().parse(request)
-        print("donor_data,donor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_datadonor_data")
-        donorSerializer = DonorSerializer(data=donor_data)
-        if donorSerializer.is_valid():
-            donorSerializer.save()
-            return JsonResponse(donorSerializer.data, status=status.HTTP_201_CREATED) 
-        return JsonResponse(donorSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
-=======
         
-        return HttpResponse("Method not implemented ")
->>>>>>> a7313b46315ccb4ed8096b7912d0917a2d41018e
+
+
+    def post(self, request, *args, **kwargs): # A especific Donor cant be posted
+
+        return JsonResponse({"status":"A especific Donor cant be posted"})
 
     def put(self, request, *args, **kwargs): #put
-        
         id = kwargs['pk']
         donor = puttingUser(request,id)
         return donor
 
+
     def delete(self, request, **kwargs): #delete
-        
         id = kwargs['pk']
         donor = deletingUser(id)
         return donor
 
+
 class DonorsView(View): # define Donors CRUD
 
-   def get(self, request, *args, **kwargs): #get
-        
-        donors= Donor.objects.all()
+    def get(self, request, *args, **kwargs):  # get
+        donors= User.objects.all()
                 
-        documentId = request.GET.get('documentId', None)
-        if documentId is not None:
-            donors = donors.filter(documentId__icontains=documentId)
+        first_name = request.GET.get('first_name', None)
+        if first_name is not None:
+            donors = donors.filter(first_name__icontains=first_name)
         
-        donorsSerializer = DonorSerializer(donors, many=True)
+        donorsSerializer = UserSerializer(donors, many=True)
         return JsonResponse(donorsSerializer.data, safe=False)
 
-   def post(self, request, *args, **kwargs):  # post
-        
+    def post(self, request, *args, **kwargs): # A especific Donor cant be posted
+
         donor = postingUser(request)
         return donor
 
-   def put(self, request, *args, **kwargs): ## A generic Donor cant be puted
+    
+    def options(self, request):
+        allowed_methods = "'get', 'post', 'put', 'delete', 'options'"
+        response = HttpResponse()
+        response['allow'] = ','.join([allowed_methods])
+        return response   
 
-        return HttpResponse("Method not implemented ")
+    
+    def put(self, request, *args, **kwargs): ## A generic Donor cant be puted
 
-   def delete(self, request, *args, **kwargs): # A generic Donor cant be delete
+        return JsonResponse({"status":"A generic Donor cant be putted"})
 
-        return HttpResponse("Method not implemented")
+    
+    def delete(self, request, *args, **kwargs): # A generic Donor cant be delete
+
+        return JsonResponse({"status":"many donors cant be deleted"})
 
 class LoginUserView(View):
 
     def post(self, request, *args, **kwargs):
         """User sign in."""
-        user_data = JSONParser().parse(request)
-        serializer = UserLoginSerializer(data=user_data)
-        serializer.is_valid(raise_exception=True)
-        user, token = serializer.save()
-        data = {
-            'user': UserSerializer(user).data,
-            'access_token': token
-        }
-        return JsonResponse(data, status=status.HTTP_201_CREATED)
+        response= userLogin(request)
+        return response
         
